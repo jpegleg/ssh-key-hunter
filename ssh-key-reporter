@@ -33,4 +33,4 @@ for y in $(ls *.auth.catalog); do
   done
 done
 
-ls | grep -v systemd | xargs rm -rf ./*
+ls | grep -v systemd | xargs rm -rf
