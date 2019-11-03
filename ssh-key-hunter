@@ -19,11 +19,11 @@ for x in $(ls /home/); do echo
   cp /home/$x/.ssh/id_rsa.pub $workdir/$(hostname).$x.id_rsa.pub
   ls -larth /home/$x/.ssh/id_rsa.pub >> $workdir/$(hostname).pub.file.dat
   cp /home/$x/.ssh/id_rsa $workdir/$(hostname).$x.id_rsa
-  ls -larth /home/$x/.ssh/id_rsa >> $workdir/$(hostname).pub.file.dat
+  ls -larth /home/$x/.ssh/id_rsa >> $workdir/$(hostname).priv.file.dat
   cp /home/$x/.ssh/id_dsa.pub $workdir/$(hostname).$x.id_dsa.pub
   ls -larth /home/$x/.ssh/id_dsa.pub >> $workdir/$(hostname).pub.file.dat
   cp /home/$x/.ssh/id_dsa $workdir/$(hostname).$x.id_dsa
-  ls -larth /home/$x/.ssh/id_dsa >> $workdir/$(hostname).pub.file.dat
+  ls -larth /home/$x/.ssh/id_dsa >> $workdir/$(hostname).priv.file.dat
 done
 }
 
