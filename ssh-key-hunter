@@ -61,6 +61,8 @@ done
 packagelist () {
   yum list installed > $workdir/$(hostname).software.out 2>/dev/null
   dpkg -l >> $workdir/$(hostname).software.out 2>/dev/null
+  zypper packages >> $workdir/$(hostname).software.out 2>/dev/null
+  pacman -Qe >> $workdir/$(hostname).software.out 2>/dev/null
 }
 
 cleanups () {
