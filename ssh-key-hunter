@@ -14,7 +14,6 @@ cp /root/.ssh/id_dsa.pub $workdir/$(hostname).root.id_dsa.pub
 ls -larth /root/.ssh/id_dsa.pub >> $workdir/$(hostname).pub.file.dat
 cp /root/.ssh/id_dsa $workdir/$(hostname).root.id_dsa
 ls -larth /root/.ssh/id_dsa >> $workdir/$(hostname).priv.file.dat
-}
 
 for x in $(ls /home/); do echo
   cp /home/$x/.ssh/id_rsa.pub $workdir/$(hostname).$x.id_rsa.pub
