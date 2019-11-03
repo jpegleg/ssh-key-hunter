@@ -12,8 +12,10 @@ for y in $(ls *.auth.catalog); do
   echo any non root user: $username
   echo Public keys
   md5sum $yhostname*pub
+  cat $yhostname*pub.file.dat
   echo Private keys
   md5sum $yhost*sa
+  cat $yhostname*priv.file.dat
   grep "ssh\|rsync\|scp\|ftp" "$yhostname".software.out
   cat $y | while read line; do
     echo $line > $y.line
