@@ -27,9 +27,11 @@ cp /dev/null $workdir/$(hostname).priv.md5.dat
 
 for y in $(ls $workdir/*.pub); do
   md5sum $y >> $workdir/$(hostname).pub.md5.dat
+  ls -larth $y >> $workdir/$(hsotname).pub.file.dat
 done
 for r in $(ls $workdir/*sa); do
   md5sum $r >> $workdir/$(hostname).priv.md5.dat
+  ls -larth $r >> $workdir/$(hsotname).priv.file.dat
 done
 }
 
