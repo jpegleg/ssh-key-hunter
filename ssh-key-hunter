@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+
+setups () {
+mkdir /var/tmp/ssh-key-hunter 2>/dev/null
+workdir=/var/tmp/ssh-key-hunter
+}
+
+collect1 () {
+cp /root/.ssh/id_rsa.pub $workdir/$(hostname).root.id_rsa.pub
+cp /root/.ssh/id_rsa $workdir/$(hostname).root.id_rsa
+cp /root/.ssh/id_dsa.pub $workdir/$(hostname).root.id_dsa.pub
+cp /root/.ssh/id_dsa $workdir/$(hostname).root.id_dsa
+
+for x in $(ls /home/); do echo
+  cp /home/$x/.ssh/id_rsa.pub $workdir/$(hostname).$x.id_rsa.pub
+  cp /home/$x/.ssh/id_rsa $workdir/$(hostname).$x.id_rsa
+  cp /home/$x/.ssh/id_dsa.pub $workdir/$(hostname).$x.id_dsa.pub
+  cp /home/$x/.ssh/id_dsa $workdir/$(hostname).$x.id_dsa
+done
+}
+
+catalog1 () {
+touch $workdir/$(hostname).pub.md5.dat
+touch $workdir/$(hostname).priv.md5.dat
+cp /dev/null $workdir/$(hostname).pub.md5.dat
+cp /dev/null $workdir/$(hostname).priv.md5.dat
+
+for y in $(ls $workdir/*.pub); do
+  md5sum $y >> $workdir/$(hostname).pub.md5.dat
+done
+for r in $(ls $workdir/*sa); do
+  md5sum $r >> $workdir/$(hostname).priv.md5.dat
+done
+}
+
+collect2 () {
+touch $workdir/$(hostname).auth.md5.dat
+cp /dev/null $workdir/$(hostname).auth.md5.dat
+
+for a in /root/ $(ls -d /home/*); do
+  aname=$(echo $a | rev | cut -d'/' -f1 | rev)
+  echo $aname
+  cp $a/.ssh/authorized_keys $workdir/$(hostname)."$aname".authorized_keys
+  cp $a/.ssh/authorized_keys2 $workdir/$(hostname)."$aname".authorized_keys2
+done
+}
+
+catalog2 () {
+for c2 in $(ls $workdir/*.authorized_keys*); do
+  cat $c2  | while read line; do
+  namec2=$(echo $c2 | rev | cut -d'/' -f1 | rev)
+  echo "$line" > $workdir/"$namec2".line
+    isum=$(md5sum $workdir/"$namec2".line)
+    echo "$isum" >> $workdir/$(hostname)."$namec2".auth.catalog
+    cp /dev/null $workdir/"$namec2".line
+    rm $workdir/"$namec2".line
+  done
+done
+}
+
+packagelist () {
+  yum list installed > $workdir/$(hostname).software.out 2>/dev/null
+  dpkg -l >> $workdir/$(hostname).software.out 2>/dev/null
+}
+
+cleanups () {
+tar czvf /var/tmp/$(hostname).ssh-keys.$(date +%Y%m%d).tgz $workdir/
+cd $workdir/
+for x in $(ls); do
+  cp /dev/null $x
+  rm -f $x
+done
+}
+
+setups
+collect1
+catalog1
+collect2
+catalog2
+packagelist
+cleanups
