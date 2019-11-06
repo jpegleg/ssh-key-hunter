@@ -10,6 +10,6 @@ done
 mkdir key-reporter
 mv *ssh-keys*gz key-reporter/
 cd key-reporter
-ssh-key-reporter > ../ssh-key-report.txt
+../ssh-key-reporter > ../ssh-key-report.txt
 cd ..
 rm -rf key-reporter
