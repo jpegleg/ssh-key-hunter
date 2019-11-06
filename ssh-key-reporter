@@ -2,33 +2,14 @@
 
 for x in $(ls *ssh-keys*tgz); do
   tar xzvf $x
-  mv var/tmp/ssh-key-hunter/* .
+  mv var/tmp/ssh-key-hunter-work/* .
 done
 
-for y in $(ls *.auth.catalog); do
-  yhostname=$(echo $y | rev | cut -d'.' -f5 | rev)
-  echo host $yhostname
-  username=$(echo $y | rev | cut -d'.' -f4 | rev)
-  echo any non root user: $username
-  echo Public keys
-  md5sum $yhostname*pub
-  cat $yhostname*pub.file.dat
-  echo Private keys
-  md5sum $yhost*sa
-  cat $yhostname*priv.file.dat
-  grep "ssh\|rsync\|scp\|ftp" "$yhostname".software.out
-  cat $y | while read line; do
-    echo $line > $y.line
-    yhst=$(echo $y | cut -d'.' -f4)
-    searchval=$(md5sum $y.line | cut -d' ' -f1)
-    usedpub="$(grep -l $searchval *.pub)"
-    if [ -z $usedpub ]; then
-      usedpub=NONE
-    else
-      echo $usedpub
-    fi
-
-    echo Authorized public key $searchval, $yhostname, $username, $(echo "$usedpub" | while read line2; do echo -n "authorized-host: for key $line2 $(echo -n $usedpub)"; done),
-
-  done
+for x in $(ls *.pub.md5.dat); do 
+  name=$(echo $x | cut -d'.' -f1); 
+  val=$(cat $x | cut -d' ' -f1); 
+  echo "$name, $val"; 
+  echo ", $(cat $name.pub.file.dat) ,"; 
+  grep $val *authorized_keys.auth.catalog; 
+  echo " "; 
 done
