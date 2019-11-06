@@ -78,11 +78,12 @@ packagelist () {
 
 cleanups () {
 tar czvf /var/tmp/$(hostname).ssh-keys.$(date +%Y%m%d).tgz $workdir/
-cd $workdir/
-for x in $(ls); do
-  cp /dev/null $x
-  rm -f $x
-done
+
+#cd $workdir/
+#for x in $(ls); do
+#  cp /dev/null $x
+#  rm -f $x
+#done
 }
 
 setups 2>/dev/null
