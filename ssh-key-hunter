@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 setups () {
-mkdir /var/tmp/ssh-key-hunter 2>/dev/null
-workdir=/var/tmp/ssh-key-hunter
+mkdir /var/tmp/ssh-key-hunter-work 2>/dev/null
+workdir=/var/tmp/ssh-key-hunter-work
 }
 
 collect1 () {
