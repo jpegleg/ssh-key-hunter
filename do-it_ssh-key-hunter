@@ -7,4 +7,9 @@ for x in $(cat $1); do
   ssh $x "rm -f /var/tmp/*ssh-keys*tgz; rm -f /var/tmp/ssh-key-hunter; exit"
 done
 
-ssh-key-reporter
+mkdir key-reporter
+mv *ssh-keys*gz key-reporter/
+cd key-reporter
+ssh-key-reporter > ../ssh-key-report.txt
+cd ..
+rm -rf key-reporter
