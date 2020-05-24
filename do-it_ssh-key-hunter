@@ -4,7 +4,7 @@ for x in $(cat $1); do
   rsync -raz --stats --progress ./ssh-key-hunter $x:/var/tmp
   ssh $x "chmod +x /var/tmp/ssh-key-hunter; /var/tmp/ssh-key-hunter; exit"
   scp $x:/var/tmp/*ssh-keys*tgz .
- ssh $x "rm -f /var/tmp/*ssh-keys*tgz; rm -f /var/tmp/ssh-key-hunter; exit"
+  ssh $x "rm -f /var/tmp/*ssh-keys*tgz; rm -f /var/tmp/ssh-key-hunter; exit"
 done
 
 mkdir key-reporter
