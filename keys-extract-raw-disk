@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+case "$1" in
+openssh)
+    grep --binary-files=text -A 26 -B 1 "BEGIN OPENSSH PRIVATE KEY" $2 > ssh-private-key-hunt.txt
+;;
+brute)
+    grep --binary-files=text -A 50 -B 1 "BEGIN.*PRIVATE KEY" $2 > brute-private-key-hunt.txt
+;;
+ultrabrute)
+    grep --binary-files=text -A 512 -B 1 "BEGIN.*PRIVATE KEY" $2 > ultrabrute-private-key-hunt.txt
+;;
+ec384)
+    grep --binary-files=text -A 5 -B 1 "BEGIN EC PRIVATE KEY" $2 > ec-private-key-hunt.txt
+;;
+*)
+echo "Usage: sudo ./keys-extract-raw-disk brute /dev/sda1";
+echo "other options for the first arg: ec384, ultrabrute, openssh";
+echo "the second arg is the disk you are wanting to extract from";
+echo
+echo "the brute option works for 4096 RSA private keys, which are pretty big, so it catches most that are there.
+echo
+exit 1;
+esac
